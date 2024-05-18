@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Settings } from "./Settings";
 import { useGroupsStore } from "./groupsStore";
 import { Image } from "@chakra-ui/image";
+import { IconButton } from "@chakra-ui/react";
+import { CircleHelp, Link } from "lucide-react";
 
 function App() {
   useEffect(() => {
@@ -88,14 +90,20 @@ function StooqTileBody(props: StooTileBodyProps) {
   const { url, label } = props;
   return (
     <div className="relative pb-2 pl-2 w-fit h-full">
-      <a
-        href={toLink(url)}
-        className="absolute left-6 top-5"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <b>{label}</b>
-      </a>
+      <div className="absolute flex justify-center items-center left-6 top-5">
+        <a
+          href={`https://www.biznesradar.pl/notowania/${label}`}
+          target="_blank"
+          className="p-1"
+          rel="noreferrer"
+        >
+          <CircleHelp size={16} />
+        </a>
+        <a href={toLink(url)} target="_blank" rel="noreferrer">
+          <b>{label}</b>
+        </a>
+      </div>
+
       <Image
         src={url}
         alt={label}
