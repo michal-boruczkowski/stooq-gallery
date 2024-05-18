@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Settings } from "./Settings";
 import { useGroupsStore } from "./groupsStore";
+import { Image } from "@chakra-ui/image";
 
 function App() {
   useEffect(() => {
@@ -12,7 +13,7 @@ function App() {
 
   return (
     <div>
-      <div className="h-svh w-svh bg-neutral-200 overflow-y-auto">
+      <div className="h-svh w-svh bg-[#f2f3f8] overflow-y-auto">
         {localGroups.map((group) => (
           <StooqGroup key={group.id} tiles={group.tickers} />
         ))}
@@ -30,7 +31,6 @@ function StooqGroup(props: StooqGroupProps) {
   const { tiles } = props;
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:h-1/4">
-      {/* <div className="invisible">Header</div> */}
       {tiles.map((tile, index) => {
         return (
           <StooqTile
@@ -54,6 +54,12 @@ type StooqTileProps = {
 function StooqTile(props: StooqTileProps) {
   const { ticker, period, references = [] } = props;
   const [isFull, setFull] = useState(false);
+  // const { data } = useQuery({
+  //   queryKey: ["names", ticker],
+  //   queryFn: ({ queryKey }) =>
+  //     fetch(toLink(toUrl(queryKey[1], "5m"))).then((res) => res.json()),
+  // });
+
   const url = toUrl(ticker, period, references);
   let label = [ticker, ...references].join("+").toUpperCase();
   return (
@@ -83,14 +89,18 @@ function StooqTileBody(props: StooTileBodyProps) {
   return (
     <div className="relative pb-2 pl-2 w-fit h-full">
       <a
-        href={url.replace("/c/", "/q/")}
-        className="absolute left-5 top-5"
+        href={toLink(url)}
+        className="absolute left-6 top-5"
         target="_blank"
         rel="noreferrer"
       >
         <b>{label}</b>
       </a>
-      <img src={url} alt={label} className="h-full rounded-md" />
+      <Image
+        src={url}
+        alt={label}
+        className="h-full rounded-lg shadow-lg p-2 bg-white"
+      />
     </div>
   );
 }
@@ -100,6 +110,10 @@ function toUrl(ticker: string, period: string, references?: string[]) {
     references && references.length > 0 ? `&r=${references.join("+")}` : "";
 
   return `https://stooq.pl/c/?s=${ticker}&c=${period}&t=l&a=lg&b=1${reference}`;
+}
+
+function toLink(url: string) {
+  return url.replace("/c/", "/q/");
 }
 
 export default App;
