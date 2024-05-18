@@ -2,24 +2,29 @@ import {
   Box,
   Button,
   CloseButton,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
 import { initialGroups } from "./initialGroups";
 import { Group, useGroupsStore } from "./groupsStore";
+import {
+  Settings as SettingsIcon,
+  CirclePlus,
+  Trash,
+  Boxes,
+} from "lucide-react";
 
 type SettingsProps = {};
 
@@ -32,55 +37,67 @@ export function Settings(props: SettingsProps) {
 
   let onOk = () => {
     save(groups);
-    //setRefresh(refresh + 1);
     onClose();
   };
 
   return (
     <div className="fixed right-5 bottom-5">
-      <Button onClick={onOpen}>|||</Button>
-      <Modal
-        size="xxl"
+      <IconButton
+        icon={<SettingsIcon />}
+        aria-label="Open Settings"
+        onClick={onOpen}
+      />
+      <Drawer
         isOpen={isOpen}
+        placement="right"
         onClose={() => {
           setGroups(localGroups);
           onClose();
         }}
+        size="full"
       >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Tickers and groups</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <SettingsForm groups={groups} setGroups={setGroups} />
-          </ModalBody>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            Tickers and groups
+          </DrawerHeader>
 
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={() => {
-                setGroups(initialGroups);
-              }}
-            >
-              Reset
-            </Button>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={() => {
-                setGroups(localGroups);
-                onClose();
-              }}
-            >
-              Close
-            </Button>
-            <Button variant="ghost" onClick={onOk}>
-              OK
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <DrawerBody>
+            <SettingsForm groups={groups} setGroups={setGroups} />
+          </DrawerBody>
+
+          <DrawerFooter borderTopWidth="1px">
+            <div className="flex justify-between w-full">
+              <div>
+                <Button
+                  colorScheme="teal"
+                  mr={3}
+                  onClick={() => {
+                    setGroups(initialGroups);
+                  }}
+                >
+                  Reset
+                </Button>
+              </div>
+              <div>
+                <Button
+                  mr={3}
+                  onClick={() => {
+                    setGroups(localGroups);
+                    onClose();
+                  }}
+                >
+                  Close
+                </Button>
+                <Button colorScheme="teal" onClick={onOk}>
+                  OK
+                </Button>
+              </div>
+            </div>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }
@@ -196,87 +213,112 @@ export function SettingsForm(props: SettingsFormProps) {
   };
 
   return (
-    <div className="flex flex-wrap sm:flex-wrap md:flex-nowrap">
-      <div className="col-span-7">
+    <div className="flex flex-wrap md:flex-nowrap">
+      <div className="w-full md:w-11/12">
         {groups.map((group) => (
-          <div key={group.id} className="border rounded-md p-4 mb-4">
-            <div className="flex justify-between items-center space-x-4 pb-2">
-              <FormLabel>Group name</FormLabel>
-              <Input
-                placeholder="Type group name..."
-                className="mb-2"
-                onChange={(event) => {
-                  handleGroupNameChange(group.id, event.target.value);
-                }}
-                value={group.label}
-              />
-              <Button onClick={() => handleAddField(group.id)}>
-                Add ticker
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => handleRemoveGroup(group.id)}
-              >
-                Delete group
-              </Button>
+          <div
+            key={group.id}
+            className="border rounded-md p-6 mb-6 shadow-lg bg-white"
+          >
+            <div className="flex justify-between items-center pb-4">
+              <div className="flex w-full md:w-1/3">
+                <FormLabel
+                  htmlFor={`group-name-${group.id}`}
+                  className="w-1/4 font-semibold"
+                >
+                  Group Name
+                </FormLabel>
+                <Input
+                  id={`group-name-${group.id}`}
+                  placeholder="Type group name..."
+                  className="mb-2 w-full"
+                  onChange={(event) =>
+                    handleGroupNameChange(group.id, event.target.value)
+                  }
+                  value={group.label}
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button
+                  leftIcon={<CirclePlus />}
+                  colorScheme="teal"
+                  onClick={() => handleAddField(group.id)}
+                >
+                  Add Ticker
+                </Button>
+                <Button
+                  leftIcon={<Trash />}
+                  colorScheme="red"
+                  onClick={() => handleRemoveGroup(group.id)}
+                >
+                  Delete Group
+                </Button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
               {group.tickers.map((ticker) => (
-                <Box key={ticker.id} className="border rounded-md p-1">
-                  <div className="flex flex-col items-end">
+                <Box
+                  key={ticker.id}
+                  className="border rounded-md p-4 shadow-sm bg-gray-50"
+                >
+                  <div className="flex justify-end">
                     <CloseButton
                       size="sm"
                       onClick={() => handleRemoveField(group.id, ticker.id)}
                     />
                   </div>
-                  <FormControl className="flex flex-col gap-2 p-3">
+                  <FormControl className="space-y-4 pt-4">
                     <div className="grid grid-cols-3 items-center">
                       <FormLabel className="col-span-1">Ticker</FormLabel>
                       <Input
                         className="col-span-2"
-                        onChange={(event) => {
+                        onChange={(event) =>
                           handleFieldChange(
                             group.id,
                             ticker.id,
                             "ticker",
                             event.target.value
-                          );
-                        }}
+                          )
+                        }
                         value={ticker.ticker}
                       />
                     </div>
-                    <div className="grid grid-cols-2 items-center">
-                      <FormLabel>Period</FormLabel>
+                    <div className="grid grid-cols-3 items-center">
+                      <FormLabel className="col-span-1">Period</FormLabel>
                       <Select
-                        placeholder="Period"
+                        className="col-span-2"
+                        placeholder="Select period"
                         value={ticker.period}
-                        onChange={(event) => {
+                        onChange={(event) =>
                           handleFieldChange(
                             group.id,
                             ticker.id,
                             "period",
                             event.target.value
-                          );
-                        }}
+                          )
+                        }
                       >
-                        {periods.map((period) => {
-                          return <option key={period}>{period}</option>;
-                        })}
+                        {periods.map((period) => (
+                          <option key={period} value={period}>
+                            {period}
+                          </option>
+                        ))}
                       </Select>
                     </div>
-                    <div className="grid grid-cols-2 items-center">
-                      <FormLabel className="mt-2">References</FormLabel>
+                    <div className="grid grid-cols-3 items-center">
+                      <FormLabel className="col-span-1">References</FormLabel>
                       <Input
+                        className="col-span-2"
                         value={ticker.references?.join(" ")}
-                        onChange={(event) => {
+                        onChange={(event) =>
                           handleFieldChange(
                             group.id,
                             ticker.id,
                             "references",
                             event.target.value
-                          );
-                        }}
+                          )
+                        }
                       />
                     </div>
                   </FormControl>
@@ -287,9 +329,14 @@ export function SettingsForm(props: SettingsFormProps) {
         ))}
       </div>
 
-      <div className="px-4">
-        <Button colorScheme="green" className="px-4" onClick={handleAddGroup}>
-          Add group
+      <div className="w-full md:w-1/12 flex justify-center md:justify-start p-4">
+        <Button
+          leftIcon={<Boxes />}
+          colorScheme="teal"
+          className="w-full md:w-auto"
+          onClick={handleAddGroup}
+        >
+          Add Group
         </Button>
       </div>
     </div>
