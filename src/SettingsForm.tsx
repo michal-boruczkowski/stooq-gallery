@@ -122,31 +122,31 @@ export function SettingsForm(props: SettingsFormProps) {
 
   return (
     <div className="flex flex-wrap md:flex-nowrap">
-      <div className="w-full md:w-11/12">
+      <div className="w-full md:w-10/12">
         {groups.map((group) => (
           <div
             key={group.id}
             className="border rounded-md p-6 mb-6 shadow-lg bg-white"
           >
-            <div className="flex justify-between items-center pb-4">
-              <div className="flex w-full md:w-1/3">
+            <div className="flex justify-between flex-wrap md:flex-nowrap gap-2 pb-4">
+              <div className="flex flex-wrap justify-start md:flex-nowrap gap-2 items-center w-full">
                 <FormLabel
                   htmlFor={`group-name-${group.id}`}
-                  className="w-1/4 font-semibold"
+                  className="font-semibold"
                 >
                   Group Name
                 </FormLabel>
                 <Input
                   id={`group-name-${group.id}`}
                   placeholder="Type group name..."
-                  className="mb-2 w-full"
+                  flex={1}
                   onChange={(event) =>
                     handleGroupNameChange(group.id, event.target.value)
                   }
                   value={group.label}
                 />
               </div>
-              <div className="flex space-x-2">
+              <div className="flex flex-wrap justify-end md:flex-nowrap gap-2">
                 <Button
                   leftIcon={<CirclePlus />}
                   colorScheme="teal"
@@ -164,7 +164,7 @@ export function SettingsForm(props: SettingsFormProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6">
               {group.tickers.map((ticker) => (
                 <Box
                   key={ticker.id}
@@ -237,11 +237,11 @@ export function SettingsForm(props: SettingsFormProps) {
         ))}
       </div>
 
-      <div className="w-full md:w-1/12 flex justify-center md:justify-start p-4">
+      <div className="w-full md:w-2/12 flex justify-end md:justify-start p-4">
         <Button
           leftIcon={<Boxes />}
           colorScheme="teal"
-          className="w-full md:w-auto"
+          className="w-full"
           onClick={handleAddGroup}
         >
           Add Group
