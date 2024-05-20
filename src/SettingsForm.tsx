@@ -126,7 +126,7 @@ export function SettingsForm(props: SettingsFormProps) {
         {groups.map((group) => (
           <div
             key={group.id}
-            className="border rounded-md p-6 mb-6 shadow-lg bg-white"
+            className="border rounded-md p-4 mb-4 shadow-lg bg-white"
           >
             <div className="flex justify-between flex-wrap md:flex-nowrap gap-2 pb-4">
               <div className="flex flex-wrap justify-start md:flex-nowrap gap-2 items-center w-full">

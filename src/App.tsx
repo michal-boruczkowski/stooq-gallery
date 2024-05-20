@@ -96,7 +96,7 @@ type StooTileBodyProps = {
 function StooqTileBody(props: StooTileBodyProps) {
   const { url, label } = props;
   return (
-    <div className="relative pb-2 pl-2 w-fit h-full">
+    <div className="relative p-1 w-fit h-full">
       <div className="absolute flex justify-center items-center left-6 top-5">
         <a
           href={`https://www.biznesradar.pl/notowania/${label}`}

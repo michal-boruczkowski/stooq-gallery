@@ -10,7 +10,7 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { initialGroups } from "./initialGroups";
 import { Group, useGroupsStore } from "./groupsStore";
 import { Settings as SettingsIcon } from "lucide-react";
@@ -30,6 +30,15 @@ export function Settings(props: SettingsProps) {
     onClose();
   };
 
+  // Handle the body scroll when the Drawer is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
   return (
     <div className="fixed right-5 bottom-5">
       <IconButton
@@ -48,13 +57,13 @@ export function Settings(props: SettingsProps) {
         size="full"
       >
         <DrawerOverlay width="full" h="full" />
-        <DrawerContent className="h-full flex flex-col">
+        <DrawerContent className="flex flex-col h-full">
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px">
             Tickers and groups
           </DrawerHeader>
 
-          <DrawerBody className="flex-1 overflow-y-auto">
+          <DrawerBody className="flex-1 overflow-y-auto" p={4}>
             <SettingsForm groups={groups} setGroups={setGroups} />
           </DrawerBody>
 
