@@ -180,6 +180,7 @@ export function SettingsForm(props: SettingsFormProps) {
                     <div className="grid grid-cols-3 items-center">
                       <FormLabel className="col-span-1">Ticker</FormLabel>
                       <Input
+                        background={"white"}
                         className="col-span-2"
                         onChange={(event) =>
                           handleFieldChange(
@@ -195,6 +196,7 @@ export function SettingsForm(props: SettingsFormProps) {
                     <div className="grid grid-cols-3 items-center">
                       <FormLabel className="col-span-1">Period</FormLabel>
                       <Select
+                        background={"white"}
                         className="col-span-2"
                         placeholder="Select period"
                         value={ticker.period}
@@ -217,6 +219,7 @@ export function SettingsForm(props: SettingsFormProps) {
                     <div className="grid grid-cols-3 items-center">
                       <FormLabel className="col-span-1">References</FormLabel>
                       <Input
+                        background={"white"}
                         className="col-span-2"
                         value={ticker.references?.join(" ")}
                         onChange={(event) =>

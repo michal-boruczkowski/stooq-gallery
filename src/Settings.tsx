@@ -10,7 +10,7 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { initialGroups } from "./initialGroups";
 import { Group, useGroupsStore } from "./groupsStore";
 import { Settings as SettingsIcon } from "lucide-react";
@@ -29,15 +29,6 @@ export function Settings(props: SettingsProps) {
     save(groups);
     onClose();
   };
-
-  // Handle the body scroll when the Drawer is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [isOpen]);
 
   return (
     <div className="fixed right-5 bottom-5">
@@ -69,7 +60,7 @@ export function Settings(props: SettingsProps) {
 
           <DrawerFooter
             borderTopWidth="1px"
-            mb={{ base: "40px", sm: "40px", md: "40px", lg: 0, xl: 0 }}
+            mb={{ base: "56px", sm: "56px", md: "56px", lg: 0, xl: 0 }}
           >
             <div className="flex justify-between w-full">
               <div>

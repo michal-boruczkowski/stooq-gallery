@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Settings } from "./Settings";
 import { useGroupsStore } from "./groupsStore";
 import { Image } from "@chakra-ui/image";
@@ -13,11 +12,6 @@ import {
 } from "@chakra-ui/react";
 
 function App() {
-  useEffect(() => {
-    document.querySelector('div[style*="z-index: 9999"]')?.remove();
-    document.querySelector("body")?.removeAttribute("style");
-  }, []);
-
   const localGroups = useGroupsStore((store) => store.groups);
 
   return (
@@ -39,7 +33,7 @@ type StooqGroupProps = {
 function StooqGroup(props: StooqGroupProps) {
   const { tiles } = props;
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:h-1/4">
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:min-h-[25svh]">
       {tiles.map((tile, index) => {
         return (
           <StooqTile
