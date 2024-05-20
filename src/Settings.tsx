@@ -47,7 +47,7 @@ export function Settings(props: SettingsProps) {
         }}
         size="full"
       >
-        <DrawerOverlay />
+        <DrawerOverlay width="full" h="full" />
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px">
@@ -58,7 +58,7 @@ export function Settings(props: SettingsProps) {
             <SettingsForm groups={groups} setGroups={setGroups} />
           </DrawerBody>
 
-          <DrawerFooter borderTopWidth="1px">
+          <DrawerFooter borderTopWidth="1px" width="full">
             <div className="flex justify-between w-full">
               <div>
                 <Button

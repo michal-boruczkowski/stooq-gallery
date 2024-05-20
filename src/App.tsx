@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Settings } from "./Settings";
 import { useGroupsStore } from "./groupsStore";
 import { Image } from "@chakra-ui/image";
-import { IconButton } from "@chakra-ui/react";
-import { CircleHelp, Link } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 
 function App() {
   useEffect(() => {
