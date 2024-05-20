@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Settings } from "./Settings";
 import { useGroupsStore } from "./groupsStore";
 import { Image } from "@chakra-ui/image";
 import { CircleHelp } from "lucide-react";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 function App() {
   useEffect(() => {
@@ -54,7 +62,7 @@ type StooqTileProps = {
 
 function StooqTile(props: StooqTileProps) {
   const { ticker, period, references = [] } = props;
-  const [isFull, setFull] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   // const { data } = useQuery({
   //   queryKey: ["names", ticker],
   //   queryFn: ({ queryKey }) =>
@@ -64,18 +72,18 @@ function StooqTile(props: StooqTileProps) {
   const url = toUrl(ticker, period, references);
   let label = [ticker, ...references].join("+").toUpperCase();
   return (
-    <div onClick={() => setFull(!isFull)}>
+    <div onClick={() => onOpen()}>
       <StooqTileBody url={url} label={label} />
-      {isFull && (
-        <div id="fullscreen" className="absolute z-40">
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-          <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-              <StooqTileBody url={url} label={label} />
-            </div>
-          </div>
-        </div>
-      )}
+
+      <Modal onClose={onClose} isOpen={isOpen} isCentered size="3xl">
+        <ModalOverlay backdropFilter="blur(10px) hue-rotate(90deg)" />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody p={0}>
+            <StooqTileBody url={url} label={label} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
@@ -95,10 +103,16 @@ function StooqTileBody(props: StooTileBodyProps) {
           target="_blank"
           className="p-1"
           rel="noreferrer"
+          onClick={(event) => event.stopPropagation()}
         >
           <CircleHelp size={16} />
         </a>
-        <a href={toLink(url)} target="_blank" rel="noreferrer">
+        <a
+          href={toLink(url)}
+          target="_blank"
+          rel="noreferrer"
+          onClick={(event) => event.stopPropagation()}
+        >
           <b>{label}</b>
         </a>
       </div>

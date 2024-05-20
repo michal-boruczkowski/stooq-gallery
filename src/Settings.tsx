@@ -48,17 +48,17 @@ export function Settings(props: SettingsProps) {
         size="full"
       >
         <DrawerOverlay width="full" h="full" />
-        <DrawerContent>
+        <DrawerContent className="h-full flex flex-col">
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px">
             Tickers and groups
           </DrawerHeader>
 
-          <DrawerBody>
+          <DrawerBody className="flex-1 overflow-y-auto">
             <SettingsForm groups={groups} setGroups={setGroups} />
           </DrawerBody>
 
-          <DrawerFooter borderTopWidth="1px" width="full">
+          <DrawerFooter borderTopWidth="1px" className="border-t p-4">
             <div className="flex justify-between w-full">
               <div>
                 <Button

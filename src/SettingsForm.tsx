@@ -168,7 +168,7 @@ export function SettingsForm(props: SettingsFormProps) {
               {group.tickers.map((ticker) => (
                 <Box
                   key={ticker.id}
-                  className="border rounded-md p-4 shadow-sm bg-gray-50"
+                  className="border rounded-md px-4 pt-3 pb-4 shadow-sm bg-gray-50"
                 >
                   <div className="flex justify-end">
                     <CloseButton
@@ -176,7 +176,7 @@ export function SettingsForm(props: SettingsFormProps) {
                       onClick={() => handleRemoveField(group.id, ticker.id)}
                     />
                   </div>
-                  <FormControl className="space-y-4 pt-4">
+                  <FormControl className="space-y-4 pt-3">
                     <div className="grid grid-cols-3 items-center">
                       <FormLabel className="col-span-1">Ticker</FormLabel>
                       <Input
