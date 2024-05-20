@@ -69,7 +69,7 @@ export function Settings(props: SettingsProps) {
 
           <DrawerFooter
             borderTopWidth="1px"
-            mb={{ base: "20px", sm: "20px", md: "20px", lg: 0, xl: 0 }}
+            mb={{ base: "40px", sm: "40px", md: "40px", lg: 0, xl: 0 }}
           >
             <div className="flex justify-between w-full">
               <div>
